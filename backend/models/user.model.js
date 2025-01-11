@@ -48,11 +48,15 @@ const userSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
+  lastlogin: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 // Hash the password before saving the user model
 userSchema.pre("save", async function (next) {
-  this.paaword = await bcrypt.hash(this.password, 10);
+  this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
