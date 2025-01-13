@@ -22,6 +22,7 @@ export const protectRoute = async (req, res, next) => {
       });
     }
     // Check if user exists
+    //getting the user from the database using the id from the token
     const currentUser = await User.findById(decoded.id);
 
     if (!currentUser) {
@@ -35,9 +36,17 @@ export const protectRoute = async (req, res, next) => {
     next(); // Move to the next middleware
   } catch (error) {
     console.log(error.message);
-    res.status(401).json({
-      success: false,
-      message: error.message,
-    });
+
+    if (error instanceof jwt.JsonWebTokenError) {
+      res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+      });
+    }
   }
 };
