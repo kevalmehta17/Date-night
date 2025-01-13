@@ -1,7 +1,47 @@
-import { User } from "../models/user.model.js";
+import User from "../models/user.model.js";
+export const swipeRight = async (req, res) => {
+  try {
+    const { likeUserId } = req.params;
+    const currentUser = await User.findById(req.user._id);
+    //find the user that the current user liked
+    const likedUser = await User.findById(likeUserId);
+    if (!likedUser) {
+      res.status(404).json({ success: false, message: "User not found" });
+    }
+    if (!currentUser.likes.includes(likeUserId)) {
+      currentUser.push(likeUserId);
+      await currentUser.save();
+    }
+    //check if the liked user has liked the current user and update the matches array
+    if (likedUser.likes.includes(currentUser.id)) {
+      currentUser.matches.push(likeUserId);
+      likedUser.matches.push(currentUser.id);
 
-export const swipeRight = async (req, res) => {};
-export const swipeLeft = async (req, res) => {};
+      await Promise.all([currentUser.save(), likedUser.save()]);
+      //TODO: SEND NOTIFICATION IF THE USER LIKED BACK SOCKET.IO
+    }
+    res.status(200).json({ success: true, user: currentUser });
+  } catch (error) {
+    console.log("error swiping right: ", error.message);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const swipeLeft = async (req, res) => {
+  try {
+    const { dislikesUserId } = req.params;
+
+    const currentUser = await User.findById(req.user._id);
+    if (!currentUser.dislikes.includes(dislikesUserId)) {
+      currentUser.dislikes.push(dislikesUserId);
+      await currentUser.save();
+    }
+    res.status(200).json({ success: true, user: currentUser });
+  } catch (error) {
+    console.log("error swiping left: ", error.message);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 export const getMatches = async (req, res) => {
   try {
