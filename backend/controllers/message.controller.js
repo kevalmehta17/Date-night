@@ -24,13 +24,18 @@ export const sendMessage = async (req, res) => {
 //this function is used to get the conversation between the logged in user and another user
 export const getConversation = async (req, res) => {
   const { userId } = req.params;
+  const limit = parseInt(req.query.limit) || 10; //limit the number of messages to be fetched
+  const page = parseInt(req.query.page) || 1; //pagination
   try {
     const message = await Message.find({
       $or: [
         { sender: req.user._id, receiver: userId }, //here sender send the message to the receiver
         { sender: userId, receiver: req.user._id }, //here receiver send the message to the sender
       ],
-    }).sort({ createdAt: 1 }); //sort the messages in ascending order of time
+    })
+      .sort({ createdAt: 1 }) //sort the messages in ascending order of time
+      .skip((page - 1) * limit) // Skip messages for previous pages
+      .limit(limit); // Limit the number of messages per request
     res.status(200).json({ success: true, data: message });
   } catch (error) {
     console.error("Error in getting conversation: ", error.message);
