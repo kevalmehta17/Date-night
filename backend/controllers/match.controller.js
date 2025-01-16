@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+
 export const swipeRight = async (req, res) => {
   try {
     const { likeUserId } = req.params;
@@ -43,6 +44,7 @@ export const swipeLeft = async (req, res) => {
   }
 };
 
+//left side corner it will show
 export const getMatches = async (req, res) => {
   try {
     const user = await User.findById(req.user._id).populate(
@@ -55,9 +57,14 @@ export const getMatches = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+//this will show the which  user profiles will show (find)
 export const getUserProfiles = async (req, res) => {
   try {
     const currentUser = await User.findById(req.user.id);
+    // $and in mongodb is used to add multiple conditions in a single query
+    // $ne is used to check if the value is not equal to the specified value
+    // $nin is used to check if the value is not in the specified array
 
     const user = await User.find({
       $and: [
