@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
-import HomePage from "../pages/HomePage";
-import AuthPage from "../pages/AuthPage";
-import ProfilePage from "../pages/ProfilePage";
-import ChatPage from "../pages/ChatPage";
+import HomePage from "./pages/HomePage";
+import AuthPage from "./pages/AuthPage";
+import ProfilePage from "./pages/ProfilePage";
+import ChatPage from "./pages/ChatPage";
 
 function App() {
   return (
