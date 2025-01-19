@@ -1,52 +1,53 @@
 import jwt from "jsonwebtoken";
-
+import User from "../models/user.model.js";
 export const protectRoute = async (req, res, next) => {
   try {
     // Get token from cookies
     const token = req.cookies.jwt;
 
     if (!token) {
-      res.status(401).json({
+      return res.status(401).json({
         success: false,
         message: "Unauthorized",
-        //401 is the status code for unauthorized
-      });
+      }); // Return to stop further execution
     }
+
     // Verify token
     const decoded = jwt.verify(token, process.env.jwtSecret);
 
     if (!decoded) {
-      res.status(401).json({
+      return res.status(401).json({
         success: false,
         message: "Unauthorized",
       });
     }
-    // Check if user exists
-    //getting the user from the database using the id from the token
+
+    // Check if user exists in the database using the ID from the token
     const currentUser = await User.findById(decoded.id);
 
     if (!currentUser) {
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         message: "User not found",
       });
     }
 
-    req.user = currentUser; // Attach user data to req
-    next(); // Move to the next middleware
+    // Attach user data to the request object
+    req.user = currentUser;
+    next(); // Move to the next middleware or route handler
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
 
     if (error instanceof jwt.JsonWebTokenError) {
-      res.status(401).json({
+      return res.status(401).json({
         success: false,
         message: "Unauthorized",
       });
-    } else {
-      res.status(500).json({
-        success: false,
-        message: "Server error",
-      });
     }
+
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
   }
 };
