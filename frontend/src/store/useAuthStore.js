@@ -4,23 +4,19 @@ import toast from "react-hot-toast";
 
 export const useAuthStore = create((set) => ({
   authUser: null, // Default value for the authenticated user
-  checkingAuth: true,
+  checkingAuth: true, // Default value for checking authentication status
   loading: false,
 
   // Signup Method
   signup: async (signupData) => {
     try {
-      console.log("Signup data:", signupData);
       set({ loading: true });
-
       // Make the API call
       const res = await axiosInstance.post("/auth/signup", signupData);
-
       // Set the authenticated user in the store
       set({ authUser: res.data.user });
-
       // Notify user of success
-      toast.success("Signup successful");
+      toast.success("Account created successful");
     } catch (error) {
       // Handle errors gracefully
       console.log("Signup error:", error.message);
@@ -36,9 +32,13 @@ export const useAuthStore = create((set) => ({
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/auth/me");
+      set({ authUser: res.data.user });
       console.log("Authenticated user:", res.data);
     } catch (error) {
+      set({ authUser: null });
       console.error("Error during authentication check:", error.message);
+    } finally {
+      set({ checkingAuth: false });
     }
   },
 }));

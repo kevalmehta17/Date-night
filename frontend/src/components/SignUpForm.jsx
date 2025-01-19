@@ -31,6 +31,12 @@ const SignUpForm = () => {
         const data = { name, email, password, age, gender, genderPreference };
         console.log("Signup data:", data);
         signup(data);
+        setName("");
+        setEmail("");
+        setPassword("");
+        setGender("");
+        setAge("");
+        setGenderPreference("");
       }}
     >
       {/* NAME */}
