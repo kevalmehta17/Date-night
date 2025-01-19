@@ -20,19 +20,19 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={checkAuth ? <HomePage /> : <Navigate to={"/auth"} />}
+          element={authUser ? <HomePage /> : <Navigate to={"/auth"} />}
         />
         <Route
           path="/auth"
-          element={!checkAuth ? <AuthPage /> : <Navigate to={"/"} />}
+          element={!authUser ? <AuthPage /> : <Navigate to={"/"} />}
         />
         <Route
           path="/profile"
-          element={checkAuth ? <ProfilePage /> : <Navigate to={"/auth"} />}
+          element={authUser ? <ProfilePage /> : <Navigate to={"/auth"} />}
         />
         <Route
           path="/chat/:id"
-          element={checkAuth ? <ChatPage /> : <Navigate to={"/auth"} />}
+          element={authUser ? <ChatPage /> : <Navigate to={"/auth"} />}
         />
       </Routes>
       <Toaster />
