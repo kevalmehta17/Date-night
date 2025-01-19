@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useAuthStore } from "../store/useAuthStore";
+import toast from "react-hot-toast";
 
 const SignUpForm = () => {
   const [name, setName] = useState("");
@@ -7,13 +9,28 @@ const SignUpForm = () => {
   const [gender, setGender] = useState("");
   const [age, setAge] = useState("");
   const [genderPreference, setGenderPreference] = useState("");
-  const loading = false;
+
+  const { signup, loading } = useAuthStore();
 
   return (
     <form
       className="space-y-6"
       onSubmit={(e) => {
         e.preventDefault();
+        if (
+          !name ||
+          !email ||
+          !password ||
+          !gender ||
+          !age ||
+          !genderPreference
+        ) {
+          toast.error("Please fill all fields");
+          return;
+        }
+        const data = { name, email, password, age, gender, genderPreference };
+        console.log("Signup data:", data);
+        signup(data);
       }}
     >
       {/* NAME */}
