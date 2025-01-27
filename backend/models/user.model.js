@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       enum: ["male", "female"],
+      //enum is used to restrict the value of a field to a pre-defined set of values
     },
     genderPreference: {
       type: String,

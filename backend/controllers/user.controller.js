@@ -1,10 +1,11 @@
 import cloudinary from "../config/cloudinary.js";
+import User from "../models/user.model.js";
 
 export const updateProfile = async (req, res) => {
   try {
     const { image, ...otherData } = req.body;
 
-    let updatedData = otherData;
+    let updatedData = { ...otherData };
 
     if (image) {
       //base64 format
@@ -19,9 +20,13 @@ export const updateProfile = async (req, res) => {
       }
     }
 
-    const updatedUser = await User.findByIdAndUpdate(req.user._id, updateData, {
-      new: true,
-    });
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id, // find the user by id
+      updatedData, // update the user document with the new data
+      {
+        new: true, // return the updated document immediately
+      }
+    );
 
     res.status(200).json({ success: true, user: updatedUser });
   } catch (error) {
