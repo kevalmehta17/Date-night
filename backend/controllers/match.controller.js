@@ -10,7 +10,7 @@ export const swipeRight = async (req, res) => {
       res.status(404).json({ success: false, message: "User not found" });
     }
     if (!currentUser.likes.includes(likeUserId)) {
-      currentUser.push(likeUserId);
+      currentUser.likes.push(likeUserId);
       await currentUser.save();
     }
     //check if the liked user has liked the current user and update the matches array
