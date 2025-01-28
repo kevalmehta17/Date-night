@@ -58,7 +58,7 @@ export const getMatches = async (req, res) => {
   }
 };
 
-//this will show the which  user profiles will show (find)
+//this will show the which  user profiles will show (find) while swiping
 export const getUserProfiles = async (req, res) => {
   try {
     const currentUser = await User.findById(req.user.id);
@@ -73,12 +73,15 @@ export const getUserProfiles = async (req, res) => {
         { _id: { $nin: currentUser.dislikes } }, // Ensure the user is not disliked by the current user
         { _id: { $nin: currentUser.matches } }, // Ensure the user is not already matched with the current user
         {
+          // Match the user
           gender:
             currentUser.genderPreference === "both"
               ? { $in: ["male", "female"] }
-              : currentUser.genderPreference, // Gender preference matching
+              : currentUser.genderPreference,
         },
-        { genderPreference: { $in: [currentUser.gender, "both"] } }, // Gender preference of the other user
+        // Ensure the other user's gender preference includes the current user's gender
+        // or they are open to both genders ("both"), allowing mutual compatibility.
+        { genderPreference: { $in: [currentUser.gender, "both"] } },
       ],
     });
 

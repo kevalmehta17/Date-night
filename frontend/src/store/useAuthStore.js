@@ -16,12 +16,15 @@ export const useAuthStore = create((set) => ({
       // Set the authenticated user in the store
       set({ authUser: res.data.user });
       // Notify user of success
-      toast.success("Account created successful");
+      toast.success("Account created successful", { duration: 5000 });
     } catch (error) {
       // Handle errors gracefully
       console.log("Signup error:", error.message);
       toast.error(
-        error.response?.data?.message || "Signup failed. Please try again."
+        error.response?.data?.message || "Signup failed. Please try again.",
+        {
+          duration: 5000,
+        }
       );
     } finally {
       set({ loading: false });
@@ -51,11 +54,16 @@ export const useAuthStore = create((set) => ({
       set({ loading: true });
       const res = await axiosInstance.post("/auth/login", loginData);
       set({ authUser: res.data.user });
-      toast.success("Logged in successful");
+      toast.success("Logged in successfully", {
+        duration: 5000,
+      });
     } catch (error) {
       console.error("Login Error:", error.message);
       toast.error(
-        error.response?.data?.message || "Login failed. Please try again."
+        error.response?.data?.message || "Login failed. Please try again.",
+        {
+          duration: 5000,
+        }
       );
     } finally {
       set({ loading: false });
