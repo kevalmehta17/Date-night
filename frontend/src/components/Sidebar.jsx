@@ -1,6 +1,7 @@
 import { Heart, Loader, MessageCircle, X } from "lucide-react"; // Importing the "X" icon from the lucide-react library
-import { useState } from "react"; // Importing useState hook for managing sidebar state
+import { useEffect, useState } from "react"; // Importing useState hook for managing sidebar state
 import { Link } from "react-router-dom";
+import { useMatchStore } from "../store/useMatchStore";
 
 const Sidebar = () => {
   // State to track whether the sidebar is open or closed
@@ -8,8 +9,12 @@ const Sidebar = () => {
 
   // Function to toggle the sidebar's visibility
   const toggleSidebar = () => setIsOpen(!isOpen);
-  const loading = false;
-  const matches = [{ _id: "1", name: "John Doe" }];
+
+  const { getMyMatches, matches, isLoadingMyMatches } = useMatchStore();
+
+  useEffect(() => {
+    getMyMatches();
+  }, [getMyMatches]);
 
   const LoadingState = () => (
     <div className="flex flex-col items-center justify-center h-full text-center">
@@ -65,7 +70,7 @@ const Sidebar = () => {
 
           {/* Main content area for matches */}
           <div className="flex-grow overflow-y-auto p-4 z-10 relative">
-            {loading ? (
+            {isLoadingMyMatches ? (
               <LoadingState />
             ) : matches.length === 0 ? (
               <NoMatchesFound />

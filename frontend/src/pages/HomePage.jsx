@@ -1,11 +1,20 @@
-import { useAuthStore } from "../store/useAuthStore";
+import { useEffect } from "react";
+import Sidebar from "../components/Sidebar";
+import { useMatchStore } from "../store/useMatchStore";
 
 function HomePage() {
-  const { logout } = useAuthStore();
+  const { isLoadingUserProfile, getUserProfiles, userProfiles } =
+    useMatchStore();
+
+  useEffect(() => {
+    getUserProfiles();
+  }, [getUserProfiles]);
+
+  console.log("User Profiles", userProfiles);
+
   return (
-    <div>
-      HomePage
-      <button onClick={logout}> logout</button>
+    <div className="flex flex-col lg:flex-row min-h-screen bg-gradient-to-br from-pink-200 to-purple-200 overflow-hidden ">
+      <Sidebar />
     </div>
   );
 }
