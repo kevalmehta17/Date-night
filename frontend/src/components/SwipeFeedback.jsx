@@ -21,8 +21,7 @@ const SwipeFeedback = () => {
     <div
       className={`absolute top-10 left-0 right-0 text-center text-2xl font-bold ${getFeedbackStyle(
         swipeFeedback
-      )}
-`}
+      )}`}
     >
       {getFeedbackText(swipeFeedback)}
     </div>

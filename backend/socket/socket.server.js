@@ -10,16 +10,18 @@ const connectedUser = new Map();
 // userId : socketId
 
 // io = new Server -> Creates a new WebSocket server and attaches it to the existing HTTP server (httpServer).
+
 export const initializeSocket = (httpServer) => {
   io = new Server(httpServer, {
     cors: {
-      origin: process.env.CLIENT_UR, // Frontend URL
+      origin: process.env.CLIENT_URL, // Frontend URL
       credentials: true, // Allows authentication (cookies, tokens, etc.)
     },
   });
 
   // io.use -> Middleware function for socket connections.
   // It checks if the userId is present in the handshake and associates it with the socket.
+
   io.use((socket, next) => {
     const userId = socket.handshake.auth.userId; // Extract userId from the handshake
     if (!userId) return next(new Error("Invalid User Id")); // If no userId, reject the connection
