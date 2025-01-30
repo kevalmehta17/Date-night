@@ -66,6 +66,7 @@ userSchema.pre("save", async function (next) {
 });
 
 // Match user entered password to hashed password in database
+// .methods is an object where you can define custom instance methods for your schema.
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };

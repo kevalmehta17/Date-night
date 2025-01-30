@@ -9,6 +9,7 @@ const SwipeArea = () => {
     else if (dir === "left") swipeLeft(user);
   };
 
+  //Inbuilt TinderCard component to render the user profiles with custom styling
   return (
     <div className="relative w-full max-w-sm h-[28rem]">
       {userProfiles.map((user) => (
@@ -21,7 +22,7 @@ const SwipeArea = () => {
           preventSwipe={["up", "down"]} // Only allow left/right swipes
         >
           {/* Render content inside the card */}
-          <div className="card bg-white w-96 h-[28rem] select-none rounded-lg overflow-hidden border border-gray-200">
+          <div className="card bg-white w-96 h-[28rem] select-none rounded-lg overflow-hidden border border-gray-200 shadow-lg">
             <figure className="px-4 pt-4 h-3/4">
               <img
                 src={user.image || "/avatar.png"}

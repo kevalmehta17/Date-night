@@ -42,3 +42,5 @@ export const getConversation = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// Using $or ensures that you get all messages exchanged between the two users, regardless of who sent or received them.

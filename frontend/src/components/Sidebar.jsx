@@ -55,7 +55,7 @@ const Sidebar = () => {
         {/* Main wrapper for sidebar content */}
         <div className="flex flex-col w-full">
           {/* HEADER */}
-          <div className="p-4 pb-[27px] border-b border-pink-200 flex justify-between items-center">
+          <div className="p-4 pb-[27px] border-b border-pink-300 flex justify-between items-center">
             {/* Sidebar title */}
             <h2 className="text-xl text-pink-600 font-bold">Matches</h2>
 

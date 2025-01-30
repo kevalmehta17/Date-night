@@ -39,6 +39,7 @@ function HomePage() {
 }
 
 export default HomePage;
+
 const NoMoreProfiles = () => (
   <div className="flex flex-col items-center justify-center h-full text-center p-8">
     <Frown className="text-pink-400 mb-6" size={80} />

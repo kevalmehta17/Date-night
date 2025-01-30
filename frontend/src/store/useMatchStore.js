@@ -22,7 +22,7 @@ export const useMatchStore = create((set) => ({
       set({ isLoadingMyMatches: false });
     }
   },
-  // this function is used to get the multiple user profiles
+  // this function is used to get the multiple user profiles for the homePage due to useEffect calling
   getUserProfiles: async () => {
     try {
       set({ isLoadingUserProfiles: true });
