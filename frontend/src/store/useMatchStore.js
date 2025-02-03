@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
+import { getSocket } from "../socket/socket.client";
 
 export const useMatchStore = create((set) => ({
   matches: [],
@@ -57,6 +58,28 @@ export const useMatchStore = create((set) => ({
       toast.error(error.response?.data?.message || "Failed to swipe Right 😢");
     } finally {
       setTimeout(() => set({ swipeFeedback: null }), 1500);
+    }
+  },
+
+  subscribeToNewMatch: () => {
+    try {
+      const socket = getSocket();
+      socket.on("new-match", (newMatch) => {
+        set((state) => ({ matches: [...state.matches, newMatch] }));
+      });
+      toast.success("You got a new match!🥳");
+    } catch (error) {
+      console.log(error.message);
+      toast.error("Failed to subscribe to new matches");
+    }
+  },
+
+  unsubscribeToNewMatch: () => {
+    try {
+      const socket = getSocket();
+      socket.off("new-match");
+    } catch (error) {
+      console.log(error.message);
     }
   },
 }));
