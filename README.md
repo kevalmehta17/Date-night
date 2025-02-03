@@ -1,6 +1,9 @@
 # 💌 Date Night 💌
 
-This is a modern dating web application built with **React + Vite**, providing a smooth and interactive user experience with real-time messaging and profile management.
+This is a modern dating web application built with **Full-Stack**, providing a smooth and interactive user experience with real-time messaging and profile management.
+
+## Live Demo 🌐
+You can check out the live demo of the project here: [💖 Date-night - Live Demo](https://date-night-3.onrender.com/)
 
 ## Technologies Used 🛠️ 👩‍💻 ✅
 
