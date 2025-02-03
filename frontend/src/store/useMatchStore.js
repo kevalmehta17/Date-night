@@ -60,10 +60,10 @@ export const useMatchStore = create((set) => ({
       setTimeout(() => set({ swipeFeedback: null }), 1500);
     }
   },
-
+  //Connecting with the socket
   subscribeToNewMatch: () => {
     try {
-      const socket = getSocket();
+      const socket = getSocket(); //get the socket instance
       socket.on("new-match", (newMatch) => {
         set((state) => ({ matches: [...state.matches, newMatch] }));
         toast.success("You got a new match!🥳");

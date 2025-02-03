@@ -21,7 +21,7 @@ export const swipeRight = async (req, res) => {
 
       await Promise.all([currentUser.save(), likedUser.save()]);
 
-      //SEND NOTIFICATION IN REAL-TIME WITH SOCKET.IO
+      //-----SEND NOTIFICATION IN REAL-TIME WITH SOCKET.IO-----------------
 
       const connectedUser = getConnectedUser();
       const io = getIO(); //get the io connection
