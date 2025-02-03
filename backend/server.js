@@ -41,11 +41,12 @@ app.use("/api/users", userRoutes);
 app.use("/api/matches", matchRoutes);
 app.use("/api/messages", messageRoutes); // Ensure this matches the client-side URL
 
-if(process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/dist")));
-  app.get("*", (req, res) => {  
+  app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "/frontend", "dist", "index.html"));
   });
+}
 
 // Start the server and connect to the database
 httpServer.listen(PORT, () => {
