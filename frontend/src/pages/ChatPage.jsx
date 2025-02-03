@@ -24,7 +24,7 @@ const ChatPage = () => {
   useEffect(() => {
     if (authUser && id) {
       getMyMatches();
-      getMessages(id);
+      getMessages(id); // Ensure this function is called to fetch messages
       subscribeToMessages();
     }
 

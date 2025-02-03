@@ -30,6 +30,7 @@ export const sendMessage = async (req, res) => {
 };
 
 //this function is used to get the conversation between the logged in user and another user
+// backend/controllers/message.controller.js
 export const getConversation = async (req, res) => {
   const { userId } = req.params;
   const limit = parseInt(req.query.limit) || 10; //limit the number of messages to be fetched

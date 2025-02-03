@@ -33,11 +33,12 @@ export const useMessageStore = create((set) => ({
   },
 
   // This function is used to get the conversation between the logged in user and another user
+
   getMessages: async (userId) => {
     try {
       set({ loading: true });
       const res = await axiosInstance.get(`/messages/conversation/${userId}`);
-      set({ messages: res.data.messages });
+      set({ messages: res.data.data }); // Ensure this line correctly sets the messages state
     } catch (error) {
       console.error("Error fetching messages:", error.message);
       set({ messages: [] });
