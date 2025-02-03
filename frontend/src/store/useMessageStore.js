@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios.js";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { getSocket } from "../socket/socket.client.js";
 import { useAuthStore } from "./useAuthStore.js";
 
@@ -9,21 +9,23 @@ export const useMessageStore = create((set) => ({
   loading: true,
 
   sendMessage: async (receiverId, content) => {
+    const user = useAuthStore.getState().authUser;
+    if (!user) return toast.error("You're not authenticated");
     try {
-      //this set Optimistic Update: add the message to the UI before sending it to the server
+      // Optimistic Update: add the message to the UI before sending it to the server
       set((state) => ({
         messages: [
-          ...state.messages,
-          { sender: useAuthStore.getState().authUser, content: content },
+          ...(state.messages || []),
+          { sender: user._id, content: content },
         ],
       }));
-      const res = await axiosInstance.post(`message/send`, {
+      const res = await axiosInstance.post(`/messages/send`, {
         receiverId,
         content,
       });
       console.log("Message sent", res.data);
     } catch (error) {
-      console.error(error.message);
+      console.error("Error sending message:", error.message);
       toast.error(error.message || "Failed to send message");
     } finally {
       set({ loading: false });
@@ -37,7 +39,7 @@ export const useMessageStore = create((set) => ({
       const res = await axiosInstance.get(`/messages/conversation/${userId}`);
       set({ messages: res.data.messages });
     } catch (error) {
-      console.error(error.message);
+      console.error("Error fetching messages:", error.message);
       set({ messages: [] });
     } finally {
       set({ loading: false });
@@ -47,7 +49,7 @@ export const useMessageStore = create((set) => ({
   subscribeToMessages: () => {
     const socket = getSocket();
     socket.on("newMessage", ({ message }) => {
-      set((state) => ({ messages: [...state.messages, message] })); //add new Msg
+      set((state) => ({ messages: [...(state.messages || []), message] }));
     });
   },
 

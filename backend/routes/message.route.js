@@ -7,10 +7,9 @@ import {
 
 const router = express.Router();
 
-router.use(protectRoute); // this middleware first runs the protectRoute function then the function below
-// ex:- router.post("/send",protectRoute ,sendMessage);
+router.use(protectRoute); // Apply the protectRoute middleware to all routes
 
-router.post("/send", sendMessage);
-router.get("/conversation/:userId", getConversation);
+router.post("/send", sendMessage); // Route to send a message
+router.get("/conversation/:userId", getConversation); // Route to get conversation
 
 export default router;

@@ -36,7 +36,7 @@ function App() {
           element={authUser ? <ProfilePage /> : <Navigate to={"/auth"} />}
         />
         <Route
-          path="/chat/:id"
+          path="/match/:id"
           element={authUser ? <ChatPage /> : <Navigate to={"/auth"} />}
         />
       </Routes>

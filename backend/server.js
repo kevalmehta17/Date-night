@@ -7,7 +7,7 @@ import { createServer } from "http";
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
 import matchRoutes from "./routes/match.route.js";
-import messageRoutes from "./routes/message.route.js";
+import messageRoutes from "./routes/message.route.js"; // Import message routes
 import { connectDB } from "./config/db.js";
 import { initializeSocket } from "./socket/socket.server.js";
 
@@ -35,7 +35,7 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/matches", matchRoutes);
-app.use("/api/messages", messageRoutes);
+app.use("/api/messages", messageRoutes); // Ensure this matches the client-side URL
 
 // Start the server and connect to the database
 httpServer.listen(PORT, () => {
