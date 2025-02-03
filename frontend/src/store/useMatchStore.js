@@ -66,8 +66,8 @@ export const useMatchStore = create((set) => ({
       const socket = getSocket();
       socket.on("new-match", (newMatch) => {
         set((state) => ({ matches: [...state.matches, newMatch] }));
+        toast.success("You got a new match!🥳");
       });
-      toast.success("You got a new match!🥳");
     } catch (error) {
       console.log(error.message);
       toast.error("Failed to subscribe to new matches");

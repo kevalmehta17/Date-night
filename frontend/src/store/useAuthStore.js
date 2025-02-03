@@ -17,14 +17,14 @@ export const useAuthStore = create((set) => ({
       // Set the authenticated user in the store
       set({ authUser: res.data.user });
       initializeSocket(res.data.user._id); //sending userId to client to server for socket connection
-      toast.success("Account created successful", { duration: 5000 });
+      toast.success("Account created successful", { duration: 3500 });
     } catch (error) {
       // Handle errors gracefully
       console.log("Signup error:", error.message);
       toast.error(
         error.response?.data?.message || "Signup failed. Please try again.",
         {
-          duration: 5000,
+          duration: 3500,
         }
       );
     } finally {
@@ -60,14 +60,14 @@ export const useAuthStore = create((set) => ({
       set({ authUser: res.data.user });
       initializeSocket(res.data.user._id); //sending userId to client to server for socket connection
       toast.success("Logged in successfully", {
-        duration: 5000,
+        duration: 2500,
       });
     } catch (error) {
       console.error("Login Error:", error.message);
       toast.error(
         error.response?.data?.message || "Login failed. Please try again.",
         {
-          duration: 5000,
+          duration: 3500,
         }
       );
     } finally {

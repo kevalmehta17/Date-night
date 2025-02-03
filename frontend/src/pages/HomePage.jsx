@@ -5,16 +5,30 @@ import Header from "../components/Header";
 import SwipeArea from "../components/SwipeArea";
 import SwipeFeedback from "../components/SwipeFeedback";
 import { Frown } from "lucide-react";
+import { useAuthStore } from "../store/useAuthStore";
 
 function HomePage() {
-  const { isLoadingUserProfiles, getUserProfiles, userProfiles } =
-    useMatchStore();
+  const {
+    isLoadingUserProfiles,
+    getUserProfiles,
+    userProfiles,
+    subscribeToNewMatch,
+    unsubscribeToNewMatch,
+  } = useMatchStore();
+
+  const { authUser } = useAuthStore();
 
   useEffect(() => {
     getUserProfiles();
   }, [getUserProfiles]);
 
-  console.log("User Profiles", userProfiles);
+  useEffect(() => {
+    authUser && subscribeToNewMatch();
+    //TODO: REMOVE THIS BEFORE DEPLOYMENT
+    // return () => {
+    //   unsubscribeToNewMatch();
+    // };
+  }, [subscribeToNewMatch, unsubscribeToNewMatch, authUser]);
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-gradient-to-br from-pink-100 to-purple-200 overflow-hidden">

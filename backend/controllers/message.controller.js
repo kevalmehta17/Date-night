@@ -1,4 +1,5 @@
 import Message from "../models/message.model.js";
+import { getConnectedUser, getIO } from "../socket/socket.server.js";
 
 //this function is used to send a message to a user
 export const sendMessage = async (req, res) => {
@@ -11,7 +12,13 @@ export const sendMessage = async (req, res) => {
       content,
     });
 
-    //TODO: SEND NOTIFICATION TO RECEIVER IN REAL TIME => SOCKET.IO
+    //SEND NOTIFICATION TO RECEIVER IN REAL TIME => SOCKET.IO
+    const io = getIO();
+    const connectedUser = getConnectedUser();
+    const receiverSocketId = connectedUser.get(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", { message: newMessage });
+    }
     res
       .status(201)
       .json({ success: true, message: "Message sent", data: newMessage });
