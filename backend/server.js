@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import path from "path";
 import { createServer } from "http";
 // Routes
 import authRoutes from "./routes/auth.route.js";
@@ -16,6 +17,9 @@ dotenv.config();
 const app = express();
 const httpServer = createServer(app);
 const PORT = process.env.PORT || 5500;
+
+const __dirname = path.resolve();
+
 // httpServer is created by passing the Express app (app) to createServer. This enables the use of both HTTP and WebSocket (via Socket.IO) on the same server.
 initializeSocket(httpServer);
 
@@ -36,6 +40,12 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/matches", matchRoutes);
 app.use("/api/messages", messageRoutes); // Ensure this matches the client-side URL
+
+if(process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/dist")));
+  app.get("*", (req, res) => {  
+    res.sendFile(path.resolve(__dirname, "/frontend", "dist", "index.html"));
+  });
 
 // Start the server and connect to the database
 httpServer.listen(PORT, () => {

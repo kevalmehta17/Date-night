@@ -42,7 +42,8 @@
 import io from "socket.io-client";
 
 // The URL for your Socket.io server (backend).
-const SOCKET_URL = "http://localhost:5500";
+const SOCKET_URL =
+  import.meta.env.MODE === "development" ? "http://localhost:5500" : "/";
 
 let socket = null; // Variable to hold the current socket connection instance
 
