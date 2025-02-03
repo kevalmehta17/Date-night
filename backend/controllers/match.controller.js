@@ -24,7 +24,7 @@ export const swipeRight = async (req, res) => {
       //SEND NOTIFICATION IN REAL-TIME WITH SOCKET.IO
 
       const connectedUser = getConnectedUser();
-      const io = getIO();
+      const io = getIO(); //get the io connection
       const likedUserSocketId = connectedUser.get(likeUserId); //it will get the socket id of the liked user
       if (likedUserSocketId) {
         io.to(likedUserSocketId).emit("new-match", {

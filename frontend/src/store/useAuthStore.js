@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
-import { disconnectSocket, initializeSocket } from "../../socket/socket.client";
+import { disconnectSocket, initializeSocket } from "../socket/socket.client";
 
 export const useAuthStore = create((set) => ({
   authUser: null, // Default value for the authenticated user
@@ -16,7 +16,7 @@ export const useAuthStore = create((set) => ({
       const res = await axiosInstance.post("/auth/signup", signupData);
       // Set the authenticated user in the store
       set({ authUser: res.data.user });
-      initializeSocket(res.data.user._id);
+      initializeSocket(res.data.user._id); //sending userId to client to server for socket connection
       toast.success("Account created successful", { duration: 5000 });
     } catch (error) {
       // Handle errors gracefully
@@ -38,7 +38,7 @@ export const useAuthStore = create((set) => ({
     try {
       set({ loading: true });
       const res = await axiosInstance.post("/auth/logout");
-      disconnectSocket();
+      disconnectSocket(); // Disconnect the socket connection
       if (res.status === 200) {
         set({ authUser: null, checkingAuth: false });
       }
@@ -58,7 +58,7 @@ export const useAuthStore = create((set) => ({
       set({ loading: true });
       const res = await axiosInstance.post("/auth/login", loginData);
       set({ authUser: res.data.user });
-      initializeSocket(res.data.user._id);
+      initializeSocket(res.data.user._id); //sending userId to client to server for socket connection
       toast.success("Logged in successfully", {
         duration: 5000,
       });
@@ -80,7 +80,7 @@ export const useAuthStore = create((set) => ({
     try {
       const res = await axiosInstance.get("/auth/me");
       set({ authUser: res.data.user });
-      initializeSocket(res.data.user._id);
+      initializeSocket(res.data.user._id); //sending userId to client to server for socket connection
       console.log("Authenticated user:", res.data);
     } catch (error) {
       set({ authUser: null });

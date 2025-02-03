@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
 
-let io;
+let io; // Stores the socket.io server instance.
 
 const connectedUser = new Map();
 // connectedUser Map tracks connected users.
@@ -23,7 +23,7 @@ export const initializeSocket = (httpServer) => {
   // It checks if the userId is present in the handshake and associates it with the socket.
 
   io.use((socket, next) => {
-    const userId = socket.handshake.auth.userId; // Extract userId from the handshake
+    const userId = socket.handshake.auth?.userId; // Extract userId from the handshake
     if (!userId) return next(new Error("Invalid User Id")); // If no userId, reject the connection
     socket.userId = userId; // Store userId in socket object for later use
     next(); // Proceed to the connection event
@@ -53,7 +53,7 @@ export const getIO = () => {
   return io;
 };
 
-//this will get the connected User
+//this will get the connected User Map
 export const getConnectedUser = () => {
   return connectedUser;
 };

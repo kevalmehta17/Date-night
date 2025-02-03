@@ -16,7 +16,7 @@ dotenv.config();
 const app = express();
 const httpServer = createServer(app);
 const PORT = process.env.PORT || 5500;
-
+// httpServer is created by passing the Express app (app) to createServer. This enables the use of both HTTP and WebSocket (via Socket.IO) on the same server.
 initializeSocket(httpServer);
 
 // Middleware
