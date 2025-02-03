@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
+import { useAuthStore } from "./useAuthStore";
 
 export const useUserStore = create((set) => ({
   loading: false,
@@ -9,7 +10,8 @@ export const useUserStore = create((set) => ({
     try {
       set({ loading: true });
       // Make the API call
-      await axiosInstance.put("/users/update", data);
+      const res = await axiosInstance.put("/users/update", data);
+      useAuthStore.getState().setAuthUser(res.data.user);
       toast.success("Profile updated successfully");
     } catch (error) {
       // Handle errors gracefully
